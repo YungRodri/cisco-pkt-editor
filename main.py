@@ -78,19 +78,20 @@ class PacketWinnerApp(tk.Tk):
             messagebox.showwarning("Warning", "No XML data to modify.")
             return
             
-        # Find all PACKETTRACER5 blocks (User, Answer, Initial)
+        # Find all PACKETTRACER5 blocks (User, Initial, Answer)
         blocks = re.findall(r'(<PACKETTRACER5>.*?</PACKETTRACER5>)', xml_str, flags=re.DOTALL)
         
-        if len(blocks) >= 2:
+        if len(blocks) >= 3:
             # Block 0 = User's current work
-            # Block 1 = Answer Network (professor's solution)
+            # Block 1 = Initial Network (blank template)
+            # Block 2 = Answer Network (professor's solution)
             # Replace the ENTIRE user block with the answer block
-            xml_str = xml_str.replace(blocks[0], blocks[1], 1)
+            xml_str = xml_str.replace(blocks[0], blocks[2], 1)
             
             self.text_area.delete(1.0, tk.END)
             self.text_area.insert(tk.END, xml_str)
             self.status_var.set("Hack applied! Ready to save.")
-            messagebox.showinfo("Hack Exitoso", "Se ha reemplazado TODA tu red (topologia, configuraciones, comandos, IPs) con la solucion completa del profesor.\n\nAhora haz clic en 'Encode & Save' para guardar el archivo modificado y abrelo en Packet Tracer.")
+            messagebox.showinfo("Hack Exitoso", "Se ha reemplazado TODA tu red con la solucion completa del profesor.\n\nAhora haz clic en 'Encode & Save' para guardar el archivo modificado y abrelo en Packet Tracer.")
             return
                 
         # Fallback if structure is not found
