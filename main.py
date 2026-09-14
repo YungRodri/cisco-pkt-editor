@@ -27,7 +27,7 @@ class PacketWinnerApp(tk.Tk):
         self.btn_save = tk.Button(self.top_frame, text="Encode & Save .pkt", command=self.save_file, state=tk.DISABLED)
         self.btn_save.pack(side=tk.LEFT, padx=5)
         
-        self.btn_patch = tk.Button(self.top_frame, text="✅ Marcar 100%", command=self.mark_100_percent, state=tk.DISABLED, bg="#d4edda", fg="#155724", font=("Arial", 10, "bold"))
+        self.btn_patch = tk.Button(self.top_frame, text="Marcar 100%", command=self.mark_100_percent, state=tk.DISABLED, bg="#d4edda", fg="#155724", font=("Arial", 10, "bold"))
         self.btn_patch.pack(side=tk.LEFT, padx=15)
         
         self.status_var = tk.StringVar()
