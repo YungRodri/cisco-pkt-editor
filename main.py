@@ -78,24 +78,20 @@ class PacketWinnerApp(tk.Tk):
             messagebox.showwarning("Warning", "No XML data to modify.")
             return
             
-        # Find all PACKETTRACER5 blocks (User, Initial, Answer)
-        blocks = re.findall(r'(<PACKETTRACER5>.*?</PACKETTRACER5>)', xml_str, flags=re.DOTALL)
+        # Unlock the Activity Wizard
+        xml_str = re.sub(r'<USER_PROFILE_LOCKED>.*?</USER_PROFILE_LOCKED>', r'<USER_PROFILE_LOCKED>false</USER_PROFILE_LOCKED>', xml_str, flags=re.IGNORECASE)
+        xml_str = re.sub(r'<ACTIVITY_LOCKED>.*?</ACTIVITY_LOCKED>', r'<ACTIVITY_LOCKED>false</ACTIVITY_LOCKED>', xml_str, flags=re.IGNORECASE)
+        xml_str = re.sub(r'<OPEN_IF_DENIED>.*?</OPEN_IF_DENIED>', r'<OPEN_IF_DENIED>true</OPEN_IF_DENIED>', xml_str, flags=re.IGNORECASE)
+        xml_str = re.sub(r'<SAVING>.*?</SAVING>', r'<SAVING>ALWAYS</SAVING>', xml_str, flags=re.IGNORECASE)
         
-        if len(blocks) >= 3:
-            # Block 0 = User's current work
-            # Block 1 = Initial Network (blank template)
-            # Block 2 = Answer Network (professor's solution)
-            # Replace the ENTIRE user block with the answer block
-            xml_str = xml_str.replace(blocks[0], blocks[2], 1)
-            
-            self.text_area.delete(1.0, tk.END)
-            self.text_area.insert(tk.END, xml_str)
-            self.status_var.set("Hack applied! Ready to save.")
-            messagebox.showinfo("Hack Exitoso", "Se ha reemplazado TODA tu red con la solucion completa del profesor.\n\nAhora haz clic en 'Encode & Save' para guardar el archivo modificado y abrelo en Packet Tracer.")
-            return
-                
-        # Fallback if structure is not found
-        messagebox.showwarning("Aviso", "No se encontro la red de respuestas oculta en este archivo.\nQuiza no sea una actividad (.pka) con evaluacion.")
+        # Clear all passwords to blank
+        xml_str = re.sub(r'<PASSWORD>.*?</PASSWORD>', r'<PASSWORD></PASSWORD>', xml_str, flags=re.IGNORECASE)
+        xml_str = re.sub(r'<PASSWD>.*?</PASSWD>', r'<PASSWD></PASSWD>', xml_str, flags=re.IGNORECASE)
+        
+        self.text_area.delete(1.0, tk.END)
+        self.text_area.insert(tk.END, xml_str)
+        self.status_var.set("Activity Wizard Unlocked! Ready to save.")
+        messagebox.showinfo("¡Hack Exitoso!", "Se ha DESBLOQUEADO el 'Activity Wizard' (Asistente de Actividades) del archivo.\n\nInstrucciones para el 100%:\n1. Haz clic en 'Encode & Save' y guarda el archivo.\n2. Abre el archivo en Packet Tracer.\n3. Presiona Ctrl + W (o ve a Opciones -> Activity Wizard).\n4. Si te pide contraseña, déjalo en blanco y presiona Enter.\n5. Ve a la pestaña 'Answer Network' y haz clic en 'Copy to User Network'.\n¡Listo! Packet Tracer te pondrá el 100% nativamente sin detectar trucos.")
             
     def save_file(self):
         if not self.current_file:
