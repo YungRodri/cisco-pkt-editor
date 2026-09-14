@@ -11,6 +11,13 @@ El core criptográfico está basado en una implementación nativa en C del algor
 > Esta herramienta ha sido desarrollada estrictamente con **fines educativos y de auditoría personal**.
 > Solamente debes utilizarla en archivos `.pkt` que sean de tu propiedad o sobre los cuales tengas permiso explícito para modificar.
 
+## 🚀 Descarga Directa
+
+Si solo quieres usar la herramienta sin compilarla, descarga el ejecutable para Windows desde aquí:
+**[⬇️ Descargar packetWinner.exe](https://github.com/YungRodri/cisco-pkt-editor/raw/main/releases/packetWinner.exe)**
+
+*(Funciona en Windows 10/11 sin necesidad de instalar Python).*
+
 ## Cómo compilar desde cero (Entorno de Desarrollador)
 
 Si deseas auditar el código y generar tu propio archivo `.exe`, sigue estos pasos:
