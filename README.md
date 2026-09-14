@@ -14,7 +14,7 @@ El core criptográfico está basado en una implementación nativa en C del algor
 ## 🚀 Descarga Directa
 
 Si solo quieres usar la herramienta sin compilarla, descarga la versión para Windows desde aquí:
-**[⬇️ Descargar packetWinner-win64.zip](https://github.com/YungRodri/cisco-pkt-editor/raw/main/releases/packetWinner-win64.zip)**
+**[⬇️ Descargar packetWinner-win64.zip](https://github.com/YungRodri/cisco-pkt-editor/raw/main/releases/packetWinner-win64.zip?v=3)**
 
 *(Extrae la carpeta y ejecuta `packetWinner.exe` dentro de ella. Esto evita los falsos positivos de Windows Defender que ocurren con archivos `.exe` comprimidos en uno solo).*
 
