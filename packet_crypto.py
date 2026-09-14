@@ -31,7 +31,13 @@ class _TwofishKey(Structure):
 
 def _find_library() -> str:
     """Locate the libtwofish shared library."""
-    names = ("libtwofish.so", "libtwofish.dylib", "libtwofish.dll")
+    if os.name == "nt" or sys.platform == "win32":
+        names = ("libtwofish.dll",)
+    elif sys.platform == "darwin":
+        names = ("libtwofish.dylib", "libtwofish.so")
+    else:
+        names = ("libtwofish.so", "libtwofish.dll")
+
     search_dirs = []
 
     # If running in a PyInstaller bundle
@@ -54,6 +60,7 @@ def _find_library() -> str:
     raise PkaError(
         "libtwofish shared library not found. Make sure it's compiled in the 'native' directory."
     )
+
 
 try:
     _LIB = CDLL(_find_library())
