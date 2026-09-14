@@ -1,0 +1,27 @@
+# Compilados de C y librerías dinámicas
+*.so
+*.dll
+*.dylib
+*.o
+native/*.dll
+native/*.so
+
+# Artefactos de PyInstaller
+build/
+dist/
+*.spec
+
+# Entornos virtuales y Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+
+# Archivos temporales o de Packet Tracer 
+*.pkt
+scratch/
+test_crypto.py
