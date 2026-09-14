@@ -4,6 +4,8 @@ from tkinter.scrolledtext import ScrolledText
 import os
 import sys
 
+import re
+
 # Append current dir to sys.path to ensure module loading works in both source and PyInstaller
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -24,6 +26,9 @@ class PacketWinnerApp(tk.Tk):
         
         self.btn_save = tk.Button(self.top_frame, text="Encode & Save .pkt", command=self.save_file, state=tk.DISABLED)
         self.btn_save.pack(side=tk.LEFT, padx=5)
+        
+        self.btn_patch = tk.Button(self.top_frame, text="✅ Marcar 100%", command=self.mark_100_percent, state=tk.DISABLED, bg="#d4edda", fg="#155724", font=("Arial", 10, "bold"))
+        self.btn_patch.pack(side=tk.LEFT, padx=15)
         
         self.status_var = tk.StringVar()
         self.status_var.set("Ready.")
@@ -53,10 +58,11 @@ class PacketWinnerApp(tk.Tk):
             xml_data = decrypt_pka(data)
             
             self.text_area.delete(1.0, tk.END)
-            self.text_area.insert(tk.END, xml_data.decode('utf-8'))
+            self.text_area.insert(tk.END, xml_data.decode('utf-8', errors='replace'))
             
             self.current_file = filepath
             self.btn_save.config(state=tk.NORMAL)
+            self.btn_patch.config(state=tk.NORMAL)
             self.status_var.set(f"Successfully decoded {os.path.basename(filepath)}")
             
         except PkaError as e:
@@ -65,6 +71,22 @@ class PacketWinnerApp(tk.Tk):
         except Exception as e:
             messagebox.showerror("Error", f"An unexpected error occurred:\n{str(e)}")
             self.status_var.set("Error opening file.")
+            
+    def mark_100_percent(self):
+        xml_str = self.text_area.get(1.0, tk.END)
+        if not xml_str.strip():
+            messagebox.showwarning("Warning", "No XML data to modify.")
+            return
+            
+        # Replace common completion tags
+        xml_str = re.sub(r'<SCORING_ITEM_COMPLETED>false</SCORING_ITEM_COMPLETED>', r'<SCORING_ITEM_COMPLETED>true</SCORING_ITEM_COMPLETED>', xml_str, flags=re.IGNORECASE)
+        xml_str = re.sub(r'<IS_COMPLETE>false</IS_COMPLETE>', r'<IS_COMPLETE>true</IS_COMPLETE>', xml_str, flags=re.IGNORECASE)
+        xml_str = re.sub(r'<ACTIVITY_COMPLETED>false</ACTIVITY_COMPLETED>', r'<ACTIVITY_COMPLETED>true</ACTIVITY_COMPLETED>', xml_str, flags=re.IGNORECASE)
+        
+        self.text_area.delete(1.0, tk.END)
+        self.text_area.insert(tk.END, xml_str)
+        self.status_var.set("Patch applied! Ready to save.")
+        messagebox.showinfo("Parche Aplicado", "Todas las etiquetas de finalización de actividad han sido cambiadas a 'true'.\n\n¡Ahora haz clic en 'Encode & Save .pkt' para guardar el archivo modificado!")
             
     def save_file(self):
         if not self.current_file:
