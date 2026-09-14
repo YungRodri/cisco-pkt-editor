@@ -13,10 +13,10 @@ El core criptográfico está basado en una implementación nativa en C del algor
 
 ## 🚀 Descarga Directa
 
-Si solo quieres usar la herramienta sin compilarla, descarga el ejecutable para Windows desde aquí:
-**[⬇️ Descargar packetWinner.exe](https://github.com/YungRodri/cisco-pkt-editor/raw/main/releases/packetWinner.exe)**
+Si solo quieres usar la herramienta sin compilarla, descarga la versión para Windows desde aquí:
+**[⬇️ Descargar packetWinner-win64.zip](https://github.com/YungRodri/cisco-pkt-editor/raw/main/releases/packetWinner-win64.zip)**
 
-*(Funciona en Windows 10/11 sin necesidad de instalar Python).*
+*(Extrae la carpeta y ejecuta `packetWinner.exe` dentro de ella. Esto evita los falsos positivos de Windows Defender que ocurren con archivos `.exe` comprimidos en uno solo).*
 
 ## Cómo compilar desde cero (Entorno de Desarrollador)
 
