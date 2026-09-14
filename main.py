@@ -78,27 +78,23 @@ class PacketWinnerApp(tk.Tk):
             messagebox.showwarning("Warning", "No XML data to modify.")
             return
             
-        # Find all PACKETTRACER5 blocks
+        # Find all PACKETTRACER5 blocks (User, Answer, Initial)
         blocks = re.findall(r'(<PACKETTRACER5>.*?</PACKETTRACER5>)', xml_str, flags=re.DOTALL)
         
         if len(blocks) >= 2:
-            # Block 0 is User Network, Block 1 is Answer Network
-            n0 = re.search(r'<NETWORK>.*?</NETWORK>', blocks[0], flags=re.DOTALL)
-            n1 = re.search(r'<NETWORK>.*?</NETWORK>', blocks[1], flags=re.DOTALL)
+            # Block 0 = User's current work
+            # Block 1 = Answer Network (professor's solution)
+            # Replace the ENTIRE user block with the answer block
+            xml_str = xml_str.replace(blocks[0], blocks[1], 1)
             
-            if n0 and n1:
-                # Replace user's NETWORK with answer's NETWORK
-                new_b0 = blocks[0][:n0.start()] + n1.group(0) + blocks[0][n0.end():]
-                xml_str = xml_str.replace(blocks[0], new_b0, 1) # Only replace the first occurrence
-                
-                self.text_area.delete(1.0, tk.END)
-                self.text_area.insert(tk.END, xml_str)
-                self.status_var.set("Hack applied! Ready to save.")
-                messagebox.showinfo("¡Hack Exitoso!", "Se ha inyectado la 'Red de Respuestas' (Answer Network) oculta directamente en tu red actual.\n\nAl guardar y abrir este archivo en Packet Tracer, tendrás todo configurado y el 100% de la nota completada automáticamente.")
-                return
+            self.text_area.delete(1.0, tk.END)
+            self.text_area.insert(tk.END, xml_str)
+            self.status_var.set("Hack applied! Ready to save.")
+            messagebox.showinfo("Hack Exitoso", "Se ha reemplazado TODA tu red (topologia, configuraciones, comandos, IPs) con la solucion completa del profesor.\n\nAhora haz clic en 'Encode & Save' para guardar el archivo modificado y abrelo en Packet Tracer.")
+            return
                 
         # Fallback if structure is not found
-        messagebox.showwarning("Aviso", "No se encontró la red de respuestas oculta en este archivo. Quizá no sea una actividad (.pka) con evaluación.")
+        messagebox.showwarning("Aviso", "No se encontro la red de respuestas oculta en este archivo.\nQuiza no sea una actividad (.pka) con evaluacion.")
             
     def save_file(self):
         if not self.current_file:
