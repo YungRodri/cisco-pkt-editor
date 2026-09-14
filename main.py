@@ -21,10 +21,10 @@ class PacketWinnerApp(tk.Tk):
         self.top_frame = tk.Frame(self)
         self.top_frame.pack(side=tk.TOP, fill=tk.X, padx=10, pady=10)
         
-        self.btn_open = tk.Button(self.top_frame, text="Open & Decode .pkt", command=self.open_file)
+        self.btn_open = tk.Button(self.top_frame, text="Open & Decode", command=self.open_file)
         self.btn_open.pack(side=tk.LEFT, padx=5)
         
-        self.btn_save = tk.Button(self.top_frame, text="Encode & Save .pkt", command=self.save_file, state=tk.DISABLED)
+        self.btn_save = tk.Button(self.top_frame, text="Encode & Save", command=self.save_file, state=tk.DISABLED)
         self.btn_save.pack(side=tk.LEFT, padx=5)
         
         self.btn_patch = tk.Button(self.top_frame, text="Marcar 100%", command=self.mark_100_percent, state=tk.DISABLED, bg="#d4edda", fg="#155724", font=("Arial", 10, "bold"))
@@ -43,7 +43,7 @@ class PacketWinnerApp(tk.Tk):
     def open_file(self):
         filepath = filedialog.askopenfilename(
             title="Select a Packet Tracer file",
-            filetypes=(("Packet Tracer Files", "*.pkt"), ("All Files", "*.*"))
+            filetypes=(("Packet Tracer Files", "*.pkt;*.pka"), ("All Files", "*.*"))
         )
         if not filepath:
             return
@@ -104,11 +104,15 @@ class PacketWinnerApp(tk.Tk):
         if not self.current_file:
             return
             
+        ext = os.path.splitext(self.current_file)[1].lower()
+        if not ext:
+            ext = ".pkt"
+            
         filepath = filedialog.asksaveasfilename(
             title="Save Packet Tracer file as",
-            defaultextension=".pkt",
+            defaultextension=ext,
             initialfile="modified_" + os.path.basename(self.current_file),
-            filetypes=(("Packet Tracer Files", "*.pkt"), ("All Files", "*.*"))
+            filetypes=(("Packet Tracer Files", f"*{ext}"), ("All Files", "*.*"))
         )
         
         if not filepath:
